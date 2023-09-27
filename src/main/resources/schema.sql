@@ -30,7 +30,7 @@ CREATE TABLE Users(
     enabled      BOOLEAN DEFAULT FALSE,
     non_locked   BOOLEAN DEFAULT TRUE,
     using_mfa    BOOLEAN DEFAULT FALSE,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at   DATETIME DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT UQ_Users_Email UNIQUE (email)
 );
 
@@ -71,17 +71,21 @@ CREATE TABLE UserEvents(
     device     VARCHAR(255) DEFAULT NULL ,
     ip_address VARCHAR(100) DEFAULT NULL ,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE ON UPDATE CASCADE ,
+    FOREIGN KEY (user_id) REFERENCES Users (id) ON DELETE CASCADE ON UPDATE CASCADE ,
     FOREIGN KEY (event_id) REFERENCES Events(id) ON DELETE RESTRICT ON UPDATE CASCADE
 
 );
 
 
-
-
-
-
-
+DROP TABLE IF EXISTS AccountVerifications;
+CREATE TABLE AccountVerifications (
+    id       BIGINT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    user_id  BIGINT UNSIGNED NOT NULL ,
+    url      VARCHAR(255) DEFAULT NULL,
+    FOREIGN KEY (user_id) REFERENCES Users (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT UQ_AccountVerifications_Url UNIQUE (url),
+    CONSTRAINT UQ_AccountVerifications_User_id  UNIQUE (user_id)
+);
 
 
 
