@@ -9,10 +9,9 @@
 
 
 
-
 CREATE SCHEMA IF NOT EXISTS securecapita;
 SET NAMES 'UTF8MB4';
-SET TIME_ZONE = 'WEST AFRICA';
+SET TIME_ZONE = '+00:00';
 
 USE securecapita;
 DROP TABLE IF EXISTS Users;
@@ -43,14 +42,14 @@ CREATE TABLE Roles(
 );
 
 
-DROP TABLE IF EXISTS UserRole;
+DROP TABLE IF EXISTS UserRoles;
 CREATE TABLE UserRoles(
      id      BIGINT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
      user_id BIGINT UNSIGNED NOT NULL,
      role_id BIGINT UNSIGNED NOT NULL,
      FOREIGN KEY (user_id) REFERENCES Users (id) ON DELETE CASCADE ON UPDATE CASCADE,
      FOREIGN KEY (role_id) REFERENCES Roles (id) ON DELETE RESTRICT ON UPDATE CASCADE,
-     CONSTRAINT UQ_UserRoles_User_id UNIQUE (user_id) ##ensure one user has one role
+     CONSTRAINT UQ_UserRoles_User_id UNIQUE (user_id)
  );
 
 
@@ -107,7 +106,6 @@ CREATE TABLE TwoFactorVerifications(
     FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT UQ_TwoFactorVerifications_User_id UNIQUE (user_id),
     CONSTRAINT UQ_TwoFactorVerifications_Code UNIQUE (code)
-s
 );
 
 
