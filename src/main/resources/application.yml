@@ -1,9 +1,10 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/securecapita
-    username: postgres
+    url: jdbc:mysql://localhost:3306/securecapita
+    username: root
+    password: Augustine20
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.MySQL8InnoDBDialect
     show-sql: true
     generate-ddl: true
     hibernate:
@@ -11,7 +12,7 @@ spring:
     properties:
       hibernate:
         globally_quoted_identifiers: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
   sql:
     init:
