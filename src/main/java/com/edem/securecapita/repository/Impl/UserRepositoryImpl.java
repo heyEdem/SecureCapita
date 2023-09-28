@@ -1,7 +1,9 @@
 package com.edem.securecapita.repository.Impl;
 
 import com.edem.securecapita.exception.ApiException;
+import com.edem.securecapita.model.Role;
 import com.edem.securecapita.model.User;
+import com.edem.securecapita.repository.RoleRepository;
 import com.edem.securecapita.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,7 @@ import static java.util.Objects.requireNonNull;
 public class UserRepositoryImpl implements UserRepository<User> {
 
     private NamedParameterJdbcTemplate jdbc;
+    private RoleRepository<Role> roleRepository;
 
     @Override
     public User create(User user) {
