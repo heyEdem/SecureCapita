@@ -1,14 +1,21 @@
 package com.edem.securecapita.repository.Impl;
 
+import com.edem.securecapita.exception.ApiException;
 import com.edem.securecapita.model.Role;
 import com.edem.securecapita.repository.RoleRepository;
+import com.edem.securecapita.rowmapper.RoleRowMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
+
+import static com.edem.securecapita.enums.RoleTypes.ROLE_USER;
+import static java.util.Objects.requireNonNull;
 
 @Repository
 @RequiredArgsConstructor
@@ -47,8 +54,15 @@ public class RoleRepositoryImpl implements RoleRepository<Role> {
         log.info("Adding role{} to user with id {}", roleName,userId);
         try{
             Role role = jdbc.queryForObject(SELECT_ROLE_NAME_QUERY, Map.of("roleName",roleName), new RoleRowMapper());
-            jdbc.update(INSERT_ROLE_TO_USER_QUERY, Map.of("userId",userId,"roleId",role.getId()));
-        }catch ()
+            jdbc.update(INSERT_ROLE_TO_USER_QUERY, Map.of("userId",userId,"roleId", requireNonNull(role).getId()));
+        } catch (EmptyResultDataAccessException exception){
+
+            throw new ApiException("No role found by name "+ ROLE_USER.name());
+            
+        } catch (Exception exception){
+
+            throw new ApiException("An error occurred. Please try again");
+        }
 
     }
 

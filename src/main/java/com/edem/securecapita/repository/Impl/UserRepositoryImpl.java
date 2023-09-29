@@ -59,10 +59,12 @@ public class UserRepositoryImpl implements UserRepository<User> {
             user.setNotLocked(true);
 
             return user;
-        }catch (EmptyResultDataAccessException exception) {
-            throw new ApiException("No role found by user: "+ ROLE_USER.name());
-
-        } catch (Exception exception){
+        }
+//        catch (EmptyResultDataAccessException exception) {
+//            throw new ApiException("No role found by user: "+ ROLE_USER.name());
+//
+//        }
+        catch (Exception exception){
             throw new ApiException("An error occurred. Please try again");
 
         }
