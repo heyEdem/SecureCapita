@@ -52,6 +52,13 @@ public class UserRepositoryImpl implements UserRepository<User> {
             String verificationUrl = getVerificationUrl(UUID.randomUUID().toString(), ACCOUNT.getType());
 
             jdbc.update(INSERT_ACCOUNT_VERIFICATION_URL_QUERY, of("user_Id",user.getId(), "url",verificationUrl));
+
+            emailService.sendVerificationUrl(user.getFirstName(), user.getEmail(), verificationUrl, ACCOUNT.getType());
+
+            user.setEnabled(false);
+            user.setNotLocked(true);
+
+            return user;
         }catch (EmptyResultDataAccessException exception) {
 
         } catch (Exception exception){}
