@@ -15,6 +15,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Collection;
 import java.util.Map;
@@ -23,13 +24,14 @@ import java.util.UUID;
 import static com.edem.securecapita.enums.RoleTypes.ROLE_USER;
 import static com.edem.securecapita.enums.VerificationType.ACCOUNT;
 import static com.edem.securecapita.query.UserQuery.*;
-
+import static java.util.Map.*;
 import static java.util.Objects.requireNonNull;
 
 @Repository
 @RequiredArgsConstructor
 @Slf4j
 public class UserRepositoryImpl implements UserRepository<User> {
+
 
     private NamedParameterJdbcTemplate jdbc;
     private RoleRepository<Role> roleRepository;
@@ -48,6 +50,8 @@ public class UserRepositoryImpl implements UserRepository<User> {
             roleRepository.addRoleToUser(user.getId(), ROLE_USER.name());
 
             String verificationUrl = getVerificationUrl(UUID.randomUUID().toString(), ACCOUNT.getType());
+
+            jdbc.update(INSERT_ACCOUNT_VERIFICATION_URL_QUERY, of("user_Id",user.getId(), "url",verificationUrl));
         }catch (EmptyResultDataAccessException exception) {
 
         } catch (Exception exception){}
@@ -78,7 +82,7 @@ public class UserRepositoryImpl implements UserRepository<User> {
     }
 
     private Integer getEmailCount(String email) {
-        return jdbc.queryForObject(COUNT_USER_EMAIL_QUERY, Map.of("email", email), Integer.class);
+        return jdbc.queryForObject(COUNT_USER_EMAIL_QUERY, of("email", email), Integer.class);
     }
 
     private SqlParameterSource getSqlParameterSource(User user) {
@@ -90,6 +94,6 @@ public class UserRepositoryImpl implements UserRepository<User> {
     }
 
     private String getVerificationUrl(String key, String type ){
-
+        return ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/verify/"+type+"/"+key).toUriString();
     }
 }
