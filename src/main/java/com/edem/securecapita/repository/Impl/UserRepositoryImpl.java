@@ -33,7 +33,7 @@ public class UserRepositoryImpl implements UserRepository<User> {
 
     private NamedParameterJdbcTemplate jdbc;
     private RoleRepository<Role> roleRepository;
-    private final BCryptPasswordEncoder encoder;
+    private  BCryptPasswordEncoder encoder;
 
     @Override
     public User create(User user) {
