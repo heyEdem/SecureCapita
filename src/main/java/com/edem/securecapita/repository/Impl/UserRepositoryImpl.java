@@ -7,7 +7,6 @@ import com.edem.securecapita.repository.RoleRepository;
 import com.edem.securecapita.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -18,13 +17,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.UUID;
 
 import static com.edem.securecapita.enums.RoleTypes.ROLE_USER;
 import static com.edem.securecapita.enums.VerificationType.ACCOUNT;
 import static com.edem.securecapita.query.UserQuery.*;
-import static java.util.Map.*;
+import static java.util.Map.of;
 import static java.util.Objects.requireNonNull;
 
 @Repository

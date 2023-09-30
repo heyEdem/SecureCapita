@@ -12,17 +12,17 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.edem.securecapita.enums.RoleTypes.ROLE_USER;
+import static com.edem.securecapita.query.RoleQuery.INSERT_ROLE_TO_USER_QUERY;
+import static com.edem.securecapita.query.RoleQuery.SELECT_ROLE_NAME_QUERY;
 import static java.util.Objects.requireNonNull;
 
 @Repository
 @RequiredArgsConstructor
 @Slf4j
 public class RoleRepositoryImpl implements RoleRepository<Role> {
-    private static final String INSERT_ROLE_TO_USER_QUERY = "";
-    private static final String SELECT_ROLE_NAME_QUERY = "";
+
     private final NamedParameterJdbcTemplate jdbc;
     @Override
     public Role create(Role data) {
@@ -58,7 +58,7 @@ public class RoleRepositoryImpl implements RoleRepository<Role> {
         } catch (EmptyResultDataAccessException exception){
 
             throw new ApiException("No role found by name "+ ROLE_USER.name());
-            
+
         } catch (Exception exception){
 
             throw new ApiException("An error occurred. Please try again");
