@@ -1,0 +1,15 @@
+package com.edem.securecapita.dtomapper;
+
+import com.edem.securecapita.dto.UserDTO;
+import com.edem.securecapita.model.User;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Component;
+
+@Component
+public class UserDTOMapper {
+    public static UserDTO fromUser(User user){
+         UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(user, userDTO);
+        return userDTO;
+    }
+}
