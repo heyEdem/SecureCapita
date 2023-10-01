@@ -31,9 +31,9 @@ import static java.util.Objects.requireNonNull;
 public class UserRepositoryImpl implements UserRepository<User> {
 
 
-    private NamedParameterJdbcTemplate jdbc;
-    private RoleRepository<Role> roleRepository;
-    private  BCryptPasswordEncoder encoder;
+    private final NamedParameterJdbcTemplate jdbc;
+    private final RoleRepository<Role> roleRepository;
+    private final BCryptPasswordEncoder encoder;
 
     @Override
     public User create(User user) {
@@ -58,17 +58,12 @@ public class UserRepositoryImpl implements UserRepository<User> {
 
             return user;
         }
-//        catch (EmptyResultDataAccessException exception) {
-//            throw new ApiException("No role found by user: "+ ROLE_USER.name());
-//
-//        }
-        catch (Exception exception){
-            throw new ApiException("An error occurred. Please try again");
 
+        catch (Exception exception){
+            log.error(exception.getMessage());
+            throw new ApiException("An error occurred. Please try again");
         }
     }
-
-
 
 
     @Override
